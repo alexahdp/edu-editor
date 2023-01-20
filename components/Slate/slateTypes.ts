@@ -97,6 +97,11 @@ export type HeadingThreeElement = {
   children: CustomText[];
 };
 
+export type CodeBlockElement = {
+  type: 'code-block';
+  children: CustomText[];
+};
+
 export type ImageElement = {
   type: 'image';
   url: string;
@@ -147,7 +152,8 @@ type CustomElement =
   | TableRowElement
   | TableCellElement
   | TitleElement
-  | VideoElement;
+  | VideoElement
+  | CodeBlockElement;
 
 export type CustomText = {
   type?: string;

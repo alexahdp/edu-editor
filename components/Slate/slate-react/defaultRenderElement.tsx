@@ -1,4 +1,13 @@
-import { Box, chakra, Heading, OrderedList, Stack, Text, UnorderedList } from '@chakra-ui/react';
+import {
+  Box,
+  chakra,
+  Heading,
+  OrderedList,
+  Stack,
+  Text,
+  UnorderedList,
+  Code,
+} from '@chakra-ui/react';
 import React from 'react';
 import { ReactNode } from 'react';
 import { Node } from 'slate';
@@ -120,6 +129,21 @@ export const defaultRenderElement = ({
         >
           {children}
         </Text>
+      );
+    case 'code-block':
+      return (
+        <SlateElementBox>
+          <Code
+            {...attributes}
+            padding={'3px'}
+            backgroundColor={'gray.200'}
+            fontSize={'90%'}
+            spellCheck={false}
+            style={{ width: '100%' }}
+          >
+            {children}
+          </Code>
+        </SlateElementBox>
       );
     default:
       return (

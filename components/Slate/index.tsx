@@ -30,7 +30,13 @@ import { NumberedListButton } from './components/Buttons/NumberedListButton';
 
 //menu
 import { BiParagraph } from 'react-icons/bi';
-import { MdFormatListBulleted, MdFormatListNumbered, MdFormatQuote, MdTitle } from 'react-icons/md';
+import {
+  MdFormatListBulleted,
+  MdFormatListNumbered,
+  MdFormatQuote,
+  MdTitle,
+  MdOutlineCode,
+} from 'react-icons/md';
 import React, { ReactNode } from 'react';
 import { Heading1, Heading2, Heading3 } from './icons/headings';
 
@@ -90,6 +96,12 @@ export const SlateMenus: MenuCommandItem[] = [
     name: 'Quote Block',
     type: 'block-quote',
     icon: <MdFormatQuote />,
+    divider: false,
+  },
+  {
+    name: 'Code Block',
+    type: 'code-block',
+    icon: <MdOutlineCode />,
     divider: false,
   },
 ];
