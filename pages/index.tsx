@@ -1,14 +1,12 @@
-import { Box } from '@chakra-ui/layout'
-import { FC } from 'react'
-import EditorView from '../components/EditorView'
-const IndexPage: FC = () => {
-    // Tick the time every second
+import { Box } from '@chakra-ui/layout';
+import { EditorView } from '../components/EditorView';
 
-    return (
-        <Box my={10}>
-            <EditorView />
-        </Box>
-    )
-}
+const IndexPage = () => {
+  return (
+    <Box my={10}>
+      <EditorView />
+    </Box>
+  );
+};
 
-export default IndexPage
+export default IndexPage;

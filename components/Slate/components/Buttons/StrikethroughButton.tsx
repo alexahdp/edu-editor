@@ -1,23 +1,22 @@
-import React from 'react'
-import { MdStrikethroughS } from 'react-icons/md'
-import ToolbarButton from './ToolbarButton'
+import React, { LegacyRef } from 'react';
+import { MdStrikethroughS } from 'react-icons/md';
+import { ToolbarButton, ToolbarButtonProps } from './ToolbarButton';
 
 /**
  * Toolbar button for strike through text mark
  *
  * @see ToolbarButton
  */
-
-const StrikethroughButton = React.forwardRef((props, ref) => (
+export const StrikethroughButton = React.forwardRef(
+  (props: Partial<ToolbarButtonProps>, ref: LegacyRef<HTMLButtonElement>) => (
     <ToolbarButton
-        icon={<MdStrikethroughS />}
-        type="mark"
-        format="strikethrough"
-        ref={ref}
-        {...props}
+      icon={<MdStrikethroughS />}
+      type="mark"
+      format="strikethrough"
+      ref={ref}
+      {...props}
     />
-))
+  ),
+);
 
-StrikethroughButton.displayName = 'StrikethroughButton'
-
-export default StrikethroughButton
+StrikethroughButton.displayName = 'StrikethroughButton';

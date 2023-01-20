@@ -1,6 +1,5 @@
-import { Editor } from 'slate'
-const GraspEditor = {
-    ...Editor,
-}
+import { Editor } from 'slate';
 
-export default GraspEditor
+export const GraspEditor = {
+  ...Editor,
+};

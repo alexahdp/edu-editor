@@ -1,23 +1,21 @@
-import React from 'react'
-import { MdFormatListNumbered } from 'react-icons/md'
-import ToolbarButton from './ToolbarButton'
+import React, { LegacyRef } from 'react';
+import { MdFormatListNumbered } from 'react-icons/md';
+import { ToolbarButton, ToolbarButtonProps } from './ToolbarButton';
 
 /**
  * Toolbar button for numbered list block
- *
  * @see ToolbarButton
  */
-
-const NumberedListButton = React.forwardRef((props, ref) => (
+export const NumberedListButton = React.forwardRef(
+  (props: Partial<ToolbarButtonProps>, ref: LegacyRef<HTMLButtonElement>) => (
     <ToolbarButton
-        icon={<MdFormatListNumbered />}
-        type="block"
-        format="numbered-list"
-        ref={ref}
-        {...props}
+      icon={<MdFormatListNumbered />}
+      type="block"
+      format="numbered-list"
+      ref={ref}
+      {...props}
     />
-))
+  ),
+);
 
-NumberedListButton.displayName = 'NumberedListButton'
-
-export default NumberedListButton
+NumberedListButton.displayName = 'NumberedListButton';

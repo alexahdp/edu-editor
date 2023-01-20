@@ -1,17 +1,16 @@
-import React from 'react'
-import { MdFormatItalic } from 'react-icons/md'
-import ToolbarButton from './ToolbarButton'
+import React, { LegacyRef } from 'react';
+import { MdFormatItalic } from 'react-icons/md';
+import { ToolbarButton, ToolbarButtonProps } from './ToolbarButton';
 
 /**
  * Toolbar button for italic text mark
  *
  * @see ToolbarButton
  */
-
-const ItalicButton = React.forwardRef((props, ref) => (
+export const ItalicButton = React.forwardRef(
+  (props: Partial<ToolbarButtonProps>, ref: LegacyRef<HTMLButtonElement>) => (
     <ToolbarButton icon={<MdFormatItalic />} type="mark" format="italic" ref={ref} {...props} />
-))
+  ),
+);
 
-ItalicButton.displayName = 'ItalicButton'
-
-export default ItalicButton
+ItalicButton.displayName = 'ItalicButton';

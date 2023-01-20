@@ -1,23 +1,21 @@
-import React from 'react'
-import { MdFormatQuote } from 'react-icons/md'
-import ToolbarButton from './ToolbarButton'
+import React, { LegacyRef } from 'react';
+import { MdFormatQuote } from 'react-icons/md';
+import { ToolbarButton, ToolbarButtonProps } from './ToolbarButton';
 
 /**
  * Toolbar button for underline text mark
- *
  * @see ToolbarButton
- *
  */
-const BlockquoteButton = React.forwardRef((props, ref) => (
+export const BlockquoteButton = React.forwardRef(
+  (props: Partial<ToolbarButtonProps>, ref: LegacyRef<HTMLButtonElement>) => (
     <ToolbarButton
-        icon={<MdFormatQuote />}
-        type="block"
-        format="block-quote"
-        ref={ref}
-        {...props}
+      icon={<MdFormatQuote />}
+      type="block"
+      format="block-quote"
+      ref={ref}
+      {...props}
     />
-))
+  ),
+);
 
-BlockquoteButton.displayName = 'BlockquoteButton'
-
-export default BlockquoteButton
+BlockquoteButton.displayName = 'BlockquoteButton';

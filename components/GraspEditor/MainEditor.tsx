@@ -1,42 +1,41 @@
-import { FC, useEffect, useState } from 'react'
-import { GraspEditable, GraspSlate, HoveringToolbar } from '../Slate'
-import SlateCommand from '../Slate/components/Command/SlateCommand'
-import MenuHandler from '../Slate/components/MenuHandler/MenuHandler'
+import { useEffect, useState } from 'react';
+import { Descendant, Editor } from 'slate';
+import { GraspEditable, GraspSlate, HoveringToolbar } from '../Slate';
+import { SlateCommand } from '../Slate/components/Command/SlateCommand';
+import { MenuHandler } from '../Slate/components/MenuHandler/MenuHandler';
 
 interface MainEditorProps {
-    editorKey
-    editor
-    value
-    setValue
-    onEditorChange
-    readOnly?: boolean
+  editorKey: string;
+  editor: Editor;
+  value: Descendant[];
+  setValue: (v: Descendant[]) => void;
+  onEditorChange: (v: Descendant[]) => void;
+  readOnly?: boolean;
 }
 
-const MainEditor: FC<MainEditorProps> = ({
-    editor,
-    editorKey,
-    onEditorChange,
-    value,
-    readOnly = false,
-}) => {
-    const [winReady, setWinReady] = useState(false)
+export const MainEditor = ({
+  editor,
+  editorKey,
+  onEditorChange,
+  value,
+  readOnly = false,
+}: MainEditorProps) => {
+  const [winReady, setWinReady] = useState(false);
 
-    useEffect(() => {
-        setWinReady(true)
-    }, [])
+  useEffect(() => {
+    setWinReady(true);
+  }, []);
 
-    return (
-        <>
-            {winReady && (
-                <GraspSlate key={editorKey} editor={editor} value={value} onChange={onEditorChange}>
-                    <HoveringToolbar />
-                    <MenuHandler />
-                    <SlateCommand />
-                    <GraspEditable readOnly={readOnly} />
-                </GraspSlate>
-            )}
-        </>
-    )
-}
-
-export default MainEditor
+  return (
+    <>
+      {winReady && (
+        <GraspSlate key={editorKey} editor={editor} value={value} onChange={onEditorChange}>
+          <HoveringToolbar />
+          <MenuHandler />
+          <SlateCommand />
+          <GraspEditable readOnly={readOnly} />
+        </GraspSlate>
+      )}
+    </>
+  );
+};
