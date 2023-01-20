@@ -49,6 +49,7 @@ export interface SlateGraspEditorBase extends ReactEditor {
 
 export type CustomEditorOrigin = BaseEditor & ReactEditor & HistoryEditor & SlateGraspEditorBase;
 
+// @ts-ignore
 export interface CustomEditor extends SlateGraspEditorBase, ReactEditor, HistoryEditor {}
 
 export type BlockQuoteElement = { type: 'block-quote'; children: Descendant[] };
@@ -149,7 +150,7 @@ type CustomElement =
   | VideoElement;
 
 export type CustomText = {
-  type: string;
+  type?: string;
   text: string;
   bold?: true;
   code?: true;
@@ -161,7 +162,7 @@ export type CustomText = {
 
 export type EmptyText = {
   text: string;
-  type: string;
+  type?: string;
 };
 
 declare module 'slate' {
