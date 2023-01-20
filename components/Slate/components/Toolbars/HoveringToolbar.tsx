@@ -15,6 +15,7 @@ import { NumberedListButton } from '../Buttons/NumberedListButton';
 import { ButtonSeparator } from '../Buttons/ButtonSeparator';
 import { BlockquoteButton } from '../Buttons/BlockquoteButton';
 import { HeadingButtons } from '../Buttons/HeadingButtons';
+import { LinkButton } from '../Buttons/LinkButton';
 
 const Portal = ({ children }: { children: ReactNode }) => {
   return ReactDOM.createPortal(children, document.body);
@@ -92,6 +93,7 @@ export const HoveringToolbar: FC<{ children?: ReactNode }> = ({ children, ...pro
             <UnderlineButton />
             <StrikethroughButton />
             <CodeButton />
+            <LinkButton />
           </React.Fragment>
         )}
         {children && children}

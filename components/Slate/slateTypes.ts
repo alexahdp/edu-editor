@@ -108,7 +108,7 @@ export type ImageElement = {
   children: EmptyText[];
 };
 
-export type LinkElement = { type: 'link'; url: string; children: Descendant[] };
+export type LinkElement = { type: 'link'; url: string; children: CustomText[] };
 
 export type ListItemElement = { type: 'list-item'; children: Descendant[] };
 
@@ -133,7 +133,7 @@ export type TitleElement = { type: 'title'; children: Descendant[] };
 
 export type VideoElement = { type: 'video'; url: string; children: EmptyText[] };
 
-type CustomElement =
+export type CustomElement =
   | BlockQuoteElement
   | BulletedListElement
   | NumberedListElement
@@ -164,6 +164,7 @@ export type CustomText = {
   strikethrough?: true;
   underlined?: true;
   underline?: true;
+  href?: string;
 };
 
 export type EmptyText = {

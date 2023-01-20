@@ -11,6 +11,8 @@ import {
 import React from 'react';
 import { ReactNode } from 'react';
 import { Node } from 'slate';
+import { LinkToolbar } from '../components/Toolbars/LinkToolbar';
+import { CustomElement } from '../slateTypes';
 
 const BlockquoteStyle: React.CSSProperties | undefined = {
   margin: '1.5em 10px',
@@ -26,7 +28,7 @@ const SlateElementBox = ({ children, my = '3' }: SlateElementBoxProps) => {
 };
 
 interface defaultRenderElementProps {
-  element: Node;
+  element: CustomElement;
   children: Node;
   attributes: Record<string, unknown>;
   handelOnConceptClick: (a: string[]) => void;
@@ -108,28 +110,28 @@ export const defaultRenderElement = ({
           </Heading>
         </SlateElementBox>
       );
-    case 'concept':
-      return (
-        <Text
-          onClick={() => {
-            // TODO
-            // @ts-ignore
-            handelOnConceptClick(element.ids);
-          }}
-          paddingX="3px"
-          paddingY="1px"
-          borderRadius="sm"
-          cursor="pointer"
-          // TODO
-          // @ts-ignore
-          data-concept-ids={element.ids ? [...element.ids] : element.ids}
-          as="span"
-          bg="blue.100"
-          {...attributes}
-        >
-          {children}
-        </Text>
-      );
+    // case 'concept':
+    //   return (
+    //     <Text
+    //       onClick={() => {
+    //         // TODO
+    //         // @ts-ignore
+    //         handelOnConceptClick(element.ids);
+    //       }}
+    //       paddingX="3px"
+    //       paddingY="1px"
+    //       borderRadius="sm"
+    //       cursor="pointer"
+    //       // TODO
+    //       // @ts-ignore
+    //       data-concept-ids={element.ids ? [...element.ids] : element.ids}
+    //       as="span"
+    //       bg="blue.100"
+    //       {...attributes}
+    //     >
+    //       {children}
+    //     </Text>
+    //   );
     case 'code-block':
       return (
         <SlateElementBox>
@@ -144,6 +146,20 @@ export const defaultRenderElement = ({
             {children}
           </Code>
         </SlateElementBox>
+      );
+    case 'link':
+      return (
+        <LinkToolbar {...{ element, attributes, children }}>
+          <a
+            {...attributes}
+            href={element.url}
+            style={{ textDecoration: 'underline', cursor: 'pointer' }}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {children}
+          </a>
+        </LinkToolbar>
       );
     default:
       return (

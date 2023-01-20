@@ -12,7 +12,6 @@ import {
   MenuList,
   Stack,
   StackProps,
-  SystemStyleObject,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { MenuCommandItem, SlateMenus } from '../..';

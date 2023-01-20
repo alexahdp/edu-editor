@@ -9,6 +9,7 @@ import { withMarks } from './plugins/withMarks';
 import { withBlocks } from './plugins/withBlocks';
 import { withHtml } from './plugins/withHtml';
 import { CustomEditor } from './slateTypes';
+import { withLinks } from './plugins/withLinks';
 
 /**
  * Creates a RichText editor.
@@ -28,7 +29,9 @@ export const CreateGraspEditor = (editorId = 'default') => {
   // const editorRef = useRef<CustomEditor>()
 
   const editor = withBlocks(
-    withMarks(withBase(withHtml(withHistory(withReact(createEditor() as CustomEditor))))),
+    withLinks(
+      withMarks(withBase(withHtml(withHistory(withReact(createEditor() as CustomEditor))))),
+    ),
   );
 
   editor.editorId = editorId;
