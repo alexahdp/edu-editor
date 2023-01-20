@@ -1,4 +1,4 @@
-import React, { LegacyRef } from 'react';
+import React, { LegacyRef, Ref } from 'react';
 import { useSlate } from 'slate-react';
 import { IconButton, PlacementWithLogical, Tooltip } from '@chakra-ui/react';
 import { MdCropSquare } from 'react-icons/md';
@@ -47,7 +47,7 @@ export interface ToolbarButtonProps {
    * isActive is a function that returns true/false to indicate the status of the mark/block.
    * Set this function if you need to handle anything other than standard mark or blocks.
    */
-  isActive: () => boolean;
+  isActive?: () => boolean;
 
   /**
    * Unconditionally disables the button
@@ -111,7 +111,7 @@ export const ToolbarButton = React.forwardRef(
       isActive,
       ...rest
     }: ToolbarButtonProps,
-    ref: LegacyRef<HTMLButtonElement>,
+    ref: Ref<HTMLButtonElement>,
   ) => {
     const editor = useSlate();
 

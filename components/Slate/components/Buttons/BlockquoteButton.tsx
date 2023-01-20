@@ -1,4 +1,5 @@
 import React, { LegacyRef } from 'react';
+import { Ref } from 'react';
 import { MdFormatQuote } from 'react-icons/md';
 import { ToolbarButton, ToolbarButtonProps } from './ToolbarButton';
 
@@ -7,7 +8,7 @@ import { ToolbarButton, ToolbarButtonProps } from './ToolbarButton';
  * @see ToolbarButton
  */
 export const BlockquoteButton = React.forwardRef(
-  (props: Partial<ToolbarButtonProps>, ref: LegacyRef<HTMLButtonElement>) => (
+  (props: Partial<ToolbarButtonProps>, ref: Ref<HTMLButtonElement>) => (
     <ToolbarButton
       icon={<MdFormatQuote />}
       type="block"
