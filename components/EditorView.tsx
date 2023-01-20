@@ -205,10 +205,9 @@ export const EditorView = () => {
 
   // const [value, setValue] = useState<Descendant[]>(initialValue());
 
+  const content = localStorage.getItem('slate-content');
   const [value, setValue] = useState<Descendant[]>(
-    typeof window === 'undefined'
-      ? []
-      : JSON.parse(localStorage.getItem('slate-content') || '') || initialValue(),
+    typeof window === 'undefined' ? [] : content ? JSON.parse(content) : initialValue(),
   );
 
   // An instance of material editor. It is an slate editor with a few more functions
