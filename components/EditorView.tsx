@@ -203,12 +203,12 @@ export const EditorView = () => {
   const mainEditorRef = useRef<CustomEditor>();
   const [isReadOnly, setIsReadOnly] = useState(false);
 
-  // const [value, setValue] = useState<Descendant[]>(initialValue());
-
-  const content = localStorage.getItem('slate-content');
-  const [value, setValue] = useState<Descendant[]>(
-    typeof window === 'undefined' ? [] : content ? JSON.parse(content) : initialValue(),
-  );
+  let content: Descendant[] = [];
+  if (typeof window !== 'undefined') {
+    const text = window.localStorage.getItem('slate-content');
+    content = text ? JSON.parse(text) : initialValue();
+  }
+  const [value, setValue] = useState<Descendant[]>(content);
 
   // An instance of material editor. It is an slate editor with a few more functions
   if (!mainEditorRef.current) mainEditorRef.current = createGraspEditor('mainEditor');
