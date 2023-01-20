@@ -1,4 +1,4 @@
-import React, { LegacyRef, Ref } from 'react';
+import React, { ReactNode, Ref } from 'react';
 import { useSlate } from 'slate-react';
 import { IconButton, PlacementWithLogical, Tooltip } from '@chakra-ui/react';
 import { MdCropSquare } from 'react-icons/md';
@@ -76,7 +76,7 @@ export interface ToolbarButtonProps {
   /**
    * Instance a component. The icon that will be displayed. Typically an icon from @material-ui/icons
    */
-  icon?: unknown;
+  icon?: ReactNode;
 
   /**
    * On mouse down event is passed up to the parent with props that can be deconstructed in {editor, event, mark/block}

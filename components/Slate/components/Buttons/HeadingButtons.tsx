@@ -1,4 +1,4 @@
-import React, { LegacyRef } from 'react';
+import React, { Ref } from 'react';
 import { Heading1, Heading2, Heading3 } from '../../icons/headings';
 import { ToolbarButton, ToolbarButtonProps } from './ToolbarButton';
 
@@ -7,7 +7,7 @@ import { ToolbarButton, ToolbarButtonProps } from './ToolbarButton';
  * @see ToolbarButton
  */
 export const HeadingButtons = React.forwardRef(
-  (props: Partial<ToolbarButtonProps>, ref: LegacyRef<HTMLButtonElement>) => (
+  (props: Partial<ToolbarButtonProps>, ref: Ref<HTMLButtonElement>) => (
     <>
       <ToolbarButton icon={<Heading1 />} type="block" format="heading-one" ref={ref} {...props} />
       <ToolbarButton icon={<Heading2 />} type="block" format="heading-two" ref={ref} {...props} />

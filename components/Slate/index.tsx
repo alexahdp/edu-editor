@@ -3,9 +3,9 @@ import { GraspEditor } from './GraspEditor';
 import { CreateGraspEditor } from './createGraspEditor';
 
 //plugins
-import { withComments } from './plugins/withComments';
-import { withEndnotes } from './plugins/withEndnotes';
-import { withCounter } from './plugins/withCounter';
+// import { withComments } from './plugins/withComments';
+// import { withEndnotes } from './plugins/withEndnotes';
+// import { withCounter } from './plugins/withCounter';
 import { withLinks } from './plugins/withLinks';
 
 // slate-react package overwrites
@@ -99,8 +99,8 @@ export {
   GraspSlate,
   GraspEditable,
   CreateGraspEditor as createGraspEditor,
-  withComments,
-  withEndnotes,
+  // withComments,
+  // withEndnotes,
   defaultRenderElement,
   defaultRenderLeaf,
   HoveringToolbar,
@@ -113,7 +113,7 @@ export {
   UnderlineButton as UnderlinedButton,
   BulletedListButton,
   NumberedListButton,
-  withCounter,
+  // withCounter,
   withLinks,
   defaultHotkeys,
 };

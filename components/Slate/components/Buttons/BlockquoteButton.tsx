@@ -1,5 +1,4 @@
-import React, { LegacyRef } from 'react';
-import { Ref } from 'react';
+import React, { Ref } from 'react';
 import { MdFormatQuote } from 'react-icons/md';
 import { ToolbarButton, ToolbarButtonProps } from './ToolbarButton';
 

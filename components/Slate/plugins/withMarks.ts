@@ -4,7 +4,7 @@ import { CustomEditor } from '../slateTypes';
 declare module '../slateTypes' {
   interface CustomEditor {
     isMarkActive: (mark: string) => boolean;
-    toggleMark: (mark: string) => boolean;
+    toggleMark: (mark: string) => CustomEditor;
   }
 }
 
@@ -28,7 +28,7 @@ export const withMarks = (editor: CustomEditor) => {
    *
    * @param {String} mark Mark to validate For example: 'bold', 'italic'
    */
-  editor.toggleMark = (mark: string) => {
+  editor.toggleMark = (mark: string): CustomEditor => {
     editor.isMarkActive(mark)
       ? GraspEditor.removeMark(editor, mark)
       : GraspEditor.addMark(editor, mark, true);

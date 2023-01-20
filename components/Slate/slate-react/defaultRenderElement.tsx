@@ -1,5 +1,5 @@
 import { Box, chakra, Heading, OrderedList, Stack, Text, UnorderedList } from '@chakra-ui/react';
-import React, { FC } from 'react';
+import React from 'react';
 import { ReactNode } from 'react';
 import { Node } from 'slate';
 
@@ -103,12 +103,16 @@ export const defaultRenderElement = ({
       return (
         <Text
           onClick={() => {
+            // TODO
+            // @ts-ignore
             handelOnConceptClick(element.ids);
           }}
           paddingX="3px"
           paddingY="1px"
           borderRadius="sm"
           cursor="pointer"
+          // TODO
+          // @ts-ignore
           data-concept-ids={element.ids ? [...element.ids] : element.ids}
           as="span"
           bg="blue.100"

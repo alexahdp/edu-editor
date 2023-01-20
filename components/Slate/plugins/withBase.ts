@@ -20,7 +20,7 @@ declare module '../slateTypes' {
     isSelectionExpanded: () => boolean;
     isSelectionCollapsed: () => boolean;
     unwrapNode: (type: string) => void;
-    isNodeTypeActive: (type: string) => boolean;
+    isNodeTypeActive: (type?: string) => boolean;
     rememberCurrentSelection: () => void;
     isCollapsed: () => boolean;
     wrapNode: (node: Node, wrapSelection: BaseSelection | null) => void;
@@ -79,10 +79,9 @@ export const withBase = (editor: CustomEditor) => {
   /**
    *
    * @param {string} type type of node to be checked. Example: `comment`, `numbered-list`
-   *
    * @returns {bool} true if within current selection there is a node of type `type`
    */
-  editor.isNodeTypeActive = (type: string) => {
+  editor.isNodeTypeActive = (type?: string): boolean => {
     const [node] = GraspEditor.nodes(editor, { match: (n: Node) => n.type === type });
     return !!node;
   };
@@ -125,14 +124,16 @@ export const withBase = (editor: CustomEditor) => {
     editor.selection = wrapSelection ? wrapSelection : editor.selection;
 
     // if the node is already wrapped with current node we unwrap it first.
-    if (editor.isNodeTypeActive(node.type)) {
+    if (node.type && editor.isNodeTypeActive(node.type)) {
       editor.unwrapNode(node.type);
     }
+
     // if there is no text selected => insert the node.
     if (editor.isCollapsed()) {
       Transforms.insertNodes(editor, node);
     } else {
       //text is selected => add the node
+      // @ts-ignore
       Transforms.wrapNodes(editor, node, { split: true });
       Transforms.collapse(editor, { edge: 'end' });
     }
@@ -199,6 +200,7 @@ export const withBase = (editor: CustomEditor) => {
    */
   editor.getSelectedText = (): string => {
     if (editor.rememberedSelection) {
+      // @ts-ignore
       return GraspEditor.string(editor, editor.rememberedSelection);
     } else {
       return '';
@@ -222,17 +224,21 @@ export const withBase = (editor: CustomEditor) => {
   };
 
   editor.getCurrentNode = (): Ancestor => {
+    // @ts-ignore
     const [node] = GraspEditor.parent(editor, editor.selection);
     return node;
   };
 
   editor.getCurrentNodePath = (): Path => {
+    // @ts-ignore
     const [, path] = GraspEditor.parent(editor, editor.selection);
     return path;
   };
 
   editor.deleteCurrentNodeText = (anchorOffset = 0, focusOffset?: number): void => {
     const { selection } = editor;
+    if (!selection) return;
+
     Transforms.delete(editor, {
       at: {
         anchor: { ...selection.anchor, offset: anchorOffset },

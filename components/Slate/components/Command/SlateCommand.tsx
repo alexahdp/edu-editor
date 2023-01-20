@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, ReactNode } from 'react';
+import React, { useState, useRef, useEffect, ReactNode, LegacyRef } from 'react';
 import ReactDOM from 'react-dom';
 import { Range } from 'slate';
 import { ReactEditor, useSlate } from 'slate-react';
@@ -6,6 +6,7 @@ import { matchSorter } from 'match-sorter';
 import {
   Box,
   Button,
+  Interpolation,
   Menu,
   MenuDivider,
   MenuList,
@@ -39,7 +40,7 @@ export const SlateCommand = ({
 }: { children?: ReactNode } & Partial<StackProps>) => {
   const CMD_KEY = '/';
 
-  const ref = useRef<HTMLElement | null>(null);
+  const ref = useRef<HTMLDivElement | undefined>();
   const editorRef = useRef<HTMLElement | null>(null);
   const menuListRef = useRef<HTMLElement | null>(null);
 
@@ -69,7 +70,7 @@ export const SlateCommand = ({
   const menuItemBorderColor2 = useColorModeValue('white', 'gray.800');
   // const menuItemBGColor = useColorModeValue('blue.100', 'blue.600')
 
-  const buttonStyles: SystemStyleObject = {
+  const buttonStyles: Interpolation<{}> = {
     textDecoration: 'none',
     color: 'inherit',
     userSelect: 'none',
@@ -78,7 +79,7 @@ export const SlateCommand = ({
     alignItems: 'center',
     textAlign: 'start',
     flex: '0 0 auto',
-    outline: 0,
+    outline: '0',
     // ...styles.item,
   };
 
@@ -144,10 +145,10 @@ export const SlateCommand = ({
     el.style.top = `${rect.top + window.pageYOffset - el.offsetHeight + elementHeight + 5}px`;
 
     el.style.left = isOpen
-      ? left.current
+      ? left.current.toString()
       : `${rect.left + window.pageXOffset - el.offsetWidth / 2 + rect.width / 2 - 12}px`;
 
-    if (!isOpen) left.current = el.style.left;
+    if (!isOpen) left.current = Number(el.style.left);
   });
 
   const handleMouseover = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, idx: number) => {
@@ -273,7 +274,7 @@ export const SlateCommand = ({
         direction="row"
         borderRadius="lg"
         spacing=".1"
-        ref={ref}
+        ref={ref as LegacyRef<HTMLDivElement>}
         position="absolute"
         padding="1"
         zIndex="1"
@@ -288,7 +289,7 @@ export const SlateCommand = ({
           <React.Fragment>
             <Menu isOpen={isOpen} key="SlateCommandMenu">
               <MenuList
-                ref={menuListRef}
+                ref={menuListRef as LegacyRef<HTMLDivElement>}
                 key="SlateCommandMenuList"
                 minWidth="185px"
                 max-height="300px"

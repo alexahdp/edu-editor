@@ -1,4 +1,4 @@
-import React, { ReactNode, FC } from 'react';
+import React, { ReactNode, FC, LegacyRef } from 'react';
 import { useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { Editor, Range } from 'slate';
@@ -30,7 +30,7 @@ const Portal = ({ children }: { children: ReactNode }) => {
  * Children will typically be `ToolbarButton`.
  */
 export const HoveringToolbar: FC<{ children?: ReactNode }> = ({ children, ...props }) => {
-  const ref = useRef();
+  const ref = useRef<HTMLDivElement | undefined>();
   const editor: Editor = useSlate();
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -68,7 +68,7 @@ export const HoveringToolbar: FC<{ children?: ReactNode }> = ({ children, ...pro
         direction="row"
         borderRadius="lg"
         spacing=".1"
-        ref={ref}
+        ref={ref as LegacyRef<HTMLDivElement>}
         position="absolute"
         padding="1"
         zIndex="1"

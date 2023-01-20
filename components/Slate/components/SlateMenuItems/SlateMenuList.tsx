@@ -1,6 +1,6 @@
 import { MenuList, MenuItem, MenuDivider, useColorModeValue, Box } from '@chakra-ui/react';
 import { CustomEditor } from 'components/Slate/slateTypes';
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { SlateMenus } from '../..';
 
 interface SlateMenuListProps {
@@ -69,14 +69,14 @@ export const SlateMenuList = ({ editor, editorRef, ref = null }: SlateMenuListPr
               boxSizing="border-box"
               borderLeftWidth="3px"
               // {editor.isBlockActive(x.type)&&
-              backgroundColor={isMenuItemActive && menuItemBGColor}
+              backgroundColor={isMenuItemActive ? menuItemBGColor : 'none'}
               borderColor={isMenuItemActive ? menuItemBorderColor : menuItemBorderColor2}
               _hover={{
                 backgroundColor: menuItemBGColor,
                 borderLeftWidth: '3px',
                 borderColor: menuItemBorderColor,
               }}
-              icon={x.icon}
+              icon={x.icon as ReactElement}
             >
               {x.name}
             </MenuItem>

@@ -1,4 +1,5 @@
-import { CustomEditor } from '../slateTypes';
+import { BaseSelection } from 'slate';
+import { CustomEditor, LinkElement } from '../slateTypes';
 
 export const withLinks = (editor: CustomEditor) => {
   const { isInline } = editor;
@@ -22,13 +23,14 @@ export const withLinks = (editor: CustomEditor) => {
     }
     // editor selection on link button click
     const wrapSelection = editor.selection || editor.rememberedSelection;
+    // @ts-ignore
     editor.selection = wrapSelection ? wrapSelection : editor.selection;
-    const node = {
+    const node: LinkElement = {
       type: LINK_TYPE,
       url,
       children: editor.isCollapsed() ? [{ text: url }] : [],
     };
-    editor.wrapNode(node, wrapSelection);
+    editor.wrapNode(node, wrapSelection as BaseSelection);
   };
 
   return editor;

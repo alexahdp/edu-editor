@@ -22,7 +22,7 @@ const Container = {
   },
 };
 const styles = {
-  global: (props) => ({
+  global: (props: Record<string, unknown>) => ({
     body: {
       bg: mode('#f4f4f6', '#19191b')(props),
     },

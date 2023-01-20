@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { Transforms } from 'slate';
 import { jsx } from 'slate-hyperscript';
 import { CustomEditor } from '../slateTypes';
@@ -30,8 +32,8 @@ const ELEMENT_TAGS = {
   UL: () => ({ type: 'bulleted-list' }),
 };
 
-// JSX.Element | null | string;
-export const deserialize = (el: HTMLElement) => {
+//
+export const deserialize = (el: HTMLElement): JSX.Element | null | string => {
   if (el.nodeType === 3) {
     return el.textContent;
   } else if (el.nodeType !== 1) {
@@ -44,7 +46,7 @@ export const deserialize = (el: HTMLElement) => {
   let parent = el;
 
   if (nodeName === 'PRE' && el.childNodes[0] && el.childNodes[0].nodeName === 'CODE') {
-    parent = el.childNodes[0];
+    parent = el.childNodes[0] as HTMLElement;
   }
   let children = Array.from(parent.childNodes).map(deserialize).flat();
 

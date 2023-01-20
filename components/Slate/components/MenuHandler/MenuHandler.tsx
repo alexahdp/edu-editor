@@ -118,6 +118,7 @@ export const MenuHandler = ({
     }
   };
 
+  // @ts-ignore
   const iseSelectedEmpty = selectedElement?.children && selectedElement?.children[0]?.text === '';
 
   if (!editor.selection || (editor.selection && !Range.isCollapsed(editor.selection))) return <></>;
@@ -144,7 +145,7 @@ export const MenuHandler = ({
               <MenuButton
                 as={IconButton}
                 color={
-                  iseSelectedEmpty && selectedElement.type !== 'list-item'
+                  iseSelectedEmpty && selectedElement?.type !== 'list-item'
                     ? 'blue.500'
                     : menuButtonColor
                 }
@@ -180,7 +181,7 @@ export const MenuHandler = ({
               as="span"
               display="inline"
               borderColor={
-                iseSelectedEmpty && selectedElement.type !== 'list-item'
+                iseSelectedEmpty && selectedElement?.type !== 'list-item'
                   ? 'blue.500'
                   : menuButtonBorderColor
               }

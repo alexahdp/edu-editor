@@ -53,6 +53,8 @@ export const GraspEditable = ({
   // Props is deconstructed in the {element, attributes, children, rest (any other prop)
   // We use `useCallback` here to memoize the function for subsequent renders.
   const handleRenderElement = useCallback((props: RenderElementProps) => {
+    // TODO
+    // @ts-ignore
     return renderElement ? renderElement(props) : defaultRenderElement({ ...props });
   }, []);
 
