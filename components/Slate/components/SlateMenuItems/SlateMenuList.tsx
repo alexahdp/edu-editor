@@ -1,7 +1,8 @@
-import { MenuList, MenuItem, MenuDivider, useColorModeValue, Box } from '@chakra-ui/react';
+import React from 'react';
+import { MenuList, useColorModeValue } from '@chakra-ui/react';
 import { CustomEditor } from 'components/Slate/slateTypes';
-import React, { ReactElement } from 'react';
 import { SlateMenus } from '../..';
+import { SlateMenuItem } from './SlateMenuItem';
 
 interface SlateMenuListProps {
   editor: CustomEditor;
@@ -13,10 +14,6 @@ export const SlateMenuList = ({ editor, editorRef, ref = null }: SlateMenuListPr
   const menuListBorderColor = useColorModeValue('1px solid #ddd', '1px solid #444');
   const menuListBGColor = useColorModeValue('white', 'gray.800');
   const menuListColor = useColorModeValue('black', 'white');
-
-  const menuItemBorderColor = useColorModeValue('blue.500', 'blue.400');
-  const menuItemBorderColor2 = useColorModeValue('white', 'gray.800');
-  const menuItemBGColor = useColorModeValue('blue.100', 'blue.600');
 
   if (!editor || !editorRef) {
     return null;
@@ -54,36 +51,16 @@ export const SlateMenuList = ({ editor, editorRef, ref = null }: SlateMenuListPr
       borderRadius="0"
       _hover={{}}
     >
-      {SlateMenus.map((x, idx) => {
-        const isMenuItemActive = editor.isBlockActive(x.type);
-        return (
-          <Box key={x.type + '-Box-' + idx}>
-            <MenuItem
-              key={x.type + '-MenuHandler-' + idx}
-              onClick={() => {
-                editor.toggleBlock(x.type);
-                editorRef.focus();
-              }}
-              px="4"
-              borderRadius="0"
-              boxSizing="border-box"
-              borderLeftWidth="3px"
-              // {editor.isBlockActive(x.type)&&
-              backgroundColor={isMenuItemActive ? menuItemBGColor : 'none'}
-              borderColor={isMenuItemActive ? menuItemBorderColor : menuItemBorderColor2}
-              _hover={{
-                backgroundColor: menuItemBGColor,
-                borderLeftWidth: '3px',
-                borderColor: menuItemBorderColor,
-              }}
-              icon={x.icon as ReactElement}
-            >
-              {x.name}
-            </MenuItem>
-            {x.divider && <MenuDivider key={x.type + 'Divider-' + idx} />}
-          </Box>
-        );
-      })}
+      {SlateMenus.map((x) => (
+        <SlateMenuItem
+          key={x.name}
+          editor={editor}
+          editorRef={editorRef}
+          id={x.name}
+          x={x}
+          isMenuItemActive={editor.isBlockActive(x.type)}
+        />
+      ))}
     </MenuList>
   );
 };

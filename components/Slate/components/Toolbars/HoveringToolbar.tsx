@@ -83,6 +83,8 @@ export const HoveringToolbar: FC<{ children?: ReactNode }> = ({ children, ...pro
         {!children && (
           <React.Fragment>
             <HeadingButtons />
+            {/* <AlignLeftButton />
+            <AlignRightButton /> */}
             <ButtonSeparator />
             <BulletedListButton />
             <NumberedListButton />

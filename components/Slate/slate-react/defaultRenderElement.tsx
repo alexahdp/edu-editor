@@ -8,11 +8,11 @@ import {
   UnorderedList,
   Code,
 } from '@chakra-ui/react';
-import React from 'react';
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import { Node } from 'slate';
+import { Image } from '../components/Elements/Image';
 import { LinkToolbar } from '../components/Toolbars/LinkToolbar';
-import { CustomElement } from '../slateTypes';
+import { CustomElement, ImageElement } from '../slateTypes';
 
 const BlockquoteStyle: React.CSSProperties | undefined = {
   margin: '1.5em 10px',
@@ -160,6 +160,12 @@ export const defaultRenderElement = ({
             {children}
           </a>
         </LinkToolbar>
+      );
+    case 'image':
+      return (
+        <SlateElementBox>
+          <Image {...{ attributes, children, element }} />
+        </SlateElementBox>
       );
     default:
       return (

@@ -2,7 +2,7 @@ import { useDisclosure } from '@chakra-ui/react';
 import React, { Ref, useCallback } from 'react';
 import { MdAddLink } from 'react-icons/md';
 import { useSlate } from 'slate-react';
-import { PromptLink } from '../Prompts/PromptLink';
+import { PromptImage } from '../Prompts/PromptImage';
 import { ToolbarButton, ToolbarButtonProps } from './ToolbarButton';
 
 /**
@@ -10,7 +10,7 @@ import { ToolbarButton, ToolbarButtonProps } from './ToolbarButton';
  *
  * @see ToolbarButton
  */
-export const LinkButton = React.forwardRef(
+export const ImageButton = React.forwardRef(
   (props: Partial<ToolbarButtonProps>, ref: Ref<HTMLButtonElement>) => {
     const editor = useSlate();
     const { onOpen, onClose, isOpen } = useDisclosure();
@@ -24,15 +24,15 @@ export const LinkButton = React.forwardRef(
         <ToolbarButton
           icon={<MdAddLink />}
           type="mark"
-          format="link"
+          format="image"
           ref={ref}
           {...props}
           onMouseDown={onOpen}
         />
-        <PromptLink isOpen={isOpen} onApply={onApply} onCancel={onClose} />
+        <PromptImage isOpen={isOpen} onApply={onApply} onCancel={onClose} />
       </>
     );
   },
 );
 
-LinkButton.displayName = 'LinkButton';
+ImageButton.displayName = 'ImageButton';

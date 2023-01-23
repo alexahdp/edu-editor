@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { Button } from '@chakra-ui/button';
 import { Center, Spacer, Stack } from '@chakra-ui/react';
 import { useState } from 'react';
@@ -202,6 +202,7 @@ const initialValue = (): Descendant[] => {
 export const EditorView = () => {
   const mainEditorRef = useRef<CustomEditor>();
   const [isReadOnly, setIsReadOnly] = useState(false);
+  const handleStateChange = useCallback((state) => setIsReadOnly(!isReadOnly), [isReadOnly]);
 
   let content: Descendant[] = [];
   if (typeof window !== 'undefined') {
@@ -240,13 +241,7 @@ export const EditorView = () => {
         >
           <Stack isInline>
             <Spacer />
-            <Button
-              size={'sm'}
-              colorScheme={'linkedin'}
-              onClick={() => {
-                setIsReadOnly((state) => !state);
-              }}
-            >
+            <Button size={'sm'} colorScheme={'linkedin'} onClick={handleStateChange}>
               {isReadOnly ? 'Edit Mode' : 'Read Only Mode'}
             </Button>
           </Stack>

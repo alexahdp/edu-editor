@@ -89,7 +89,7 @@ export const MenuHandler = ({
     // `${rect.left + window.pageXOffset - el.offsetWidth / 2 + rect.width / 2}px`
   });
 
-  const getIconByType = (type: string): any => {
+  const getIconByType = (type: string): ReactNode => {
     switch (type) {
       case 'block-quote':
         return <MdFormatQuote size="15px" />;

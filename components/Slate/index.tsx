@@ -36,6 +36,7 @@ import {
   MdFormatQuote,
   MdTitle,
   MdOutlineCode,
+  MdImage,
 } from 'react-icons/md';
 import React, { ReactNode } from 'react';
 import { Heading1, Heading2, Heading3 } from './icons/headings';
@@ -102,6 +103,12 @@ export const SlateMenus: MenuCommandItem[] = [
     name: 'Code Block',
     type: 'code-block',
     icon: <MdOutlineCode />,
+    divider: false,
+  },
+  {
+    name: 'Image',
+    type: 'image',
+    icon: <MdImage />,
     divider: false,
   },
 ];

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, ReactNode, LegacyRef } from 'react';
+import React, { useState, useRef, useEffect, ReactNode, LegacyRef, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import { Range } from 'slate';
 import { ReactEditor, useSlate } from 'slate-react';
@@ -13,9 +13,11 @@ import {
   Stack,
   StackProps,
   useColorModeValue,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { MenuCommandItem, SlateMenus } from '../..';
 import { getEditorId } from '../../slate-utils';
+import { PromptImage } from '../Prompts/PromptImage';
 
 const Portal = ({ children }: { children: ReactNode }) => {
   return ReactDOM.createPortal(children, document.body);
@@ -68,6 +70,18 @@ export const SlateCommand = ({
   const menuItemBorderColor = useColorModeValue('blue.500', 'blue.400');
   const menuItemBorderColor2 = useColorModeValue('white', 'gray.800');
   // const menuItemBGColor = useColorModeValue('blue.100', 'blue.600')
+
+  const {
+    isOpen: imageAddPromptIsOpen,
+    onOpen: openImageAddPrompt,
+    onClose: closeImageAddPrompt,
+  } = useDisclosure();
+
+  const onImageAdd = useCallback((url: string): void => {
+    editor.deleteCurrentNodeText(commandOffset.current);
+    editor.insertImage(url);
+    closeImageAddPrompt();
+  }, []);
 
   const buttonStyles: Interpolation<{}> = {
     textDecoration: 'none',
@@ -162,6 +176,11 @@ export const SlateCommand = ({
     x: MenuCommandItem,
   ) => {
     e.preventDefault();
+    if (x.type === 'image') {
+      openImageAddPrompt();
+      return;
+    }
+
     editor.toggleBlock(x.type);
     editor.deleteCurrentNodeText(commandOffset.current);
     if (editorRef.current) {
@@ -197,8 +216,13 @@ export const SlateCommand = ({
           } else if (e.key === 'Enter') {
             if (confirmEditor(e)) {
               e.preventDefault();
-              if (commandsLengthRef.current > 0 && editor.commands[editor.selectedCommand])
+              if (editor.commands[editor.selectedCommand].type === 'image') {
+                openImageAddPrompt();
+                return;
+              }
+              if (commandsLengthRef.current > 0 && editor.commands[editor.selectedCommand]) {
                 editor.toggleBlock(editor.commands[editor.selectedCommand].type);
+              }
               editor.deleteCurrentNodeText(commandOffset.current);
               closeTagSelectorMenu();
             }
@@ -267,118 +291,127 @@ export const SlateCommand = ({
   }, []);
 
   return (
-    <Portal>
-      <Stack
-        // onBlur={closeTagSelectorMenu}
-        direction="row"
-        borderRadius="lg"
-        spacing=".1"
-        ref={ref as LegacyRef<HTMLDivElement>}
-        position="absolute"
-        padding="1"
-        zIndex="1"
-        top="-10000px"
-        left="-10000px"
-        opacity={1}
-        // backgroundColor={colorMode === 'dark' ? 'gray.700' : 'gray.200'}
-        transition="opacity 0.75s"
-        {...props}
-      >
-        {!children && (
-          <React.Fragment>
-            <Menu isOpen={isOpen} key="SlateCommandMenu">
-              <MenuList
-                ref={menuListRef as LegacyRef<HTMLDivElement>}
-                key="SlateCommandMenuList"
-                minWidth="185px"
-                max-height="300px"
-                overflow="auto"
-                border={menuListBorderColor}
-                css={{
-                  '&::-webkit-scrollbar': {
-                    height: '8px',
-                    width: '8px',
-                  },
-                  '&::-webkit-scrollbar-track': {
-                    height: '6px',
-                    width: '5px',
-                  },
-                  '&::-webkit-scrollbar-thumb': {
-                    background: '#d1d1d1',
-                    // borderRadius: '24px',
-                  },
-                }}
-                // boxShadow="0 2px 2px rgba(0, 0, 0, 0.4)"
-                // boxShadow="0 1px 4px 0 rgb(0 0 0 / 50%)"
-                boxShadow="base"
-                bg={menuListBGColor}
-                color={menuListColor}
-                // p="0"
-                // my="3px"
-                borderRadius="0"
-                _hover={{}}
-              >
-                {commandsLengthRef.current > 0 ? (
-                  commands.map((x, idx) => {
-                    const isMenuItemActive = editor.isBlockActive(x.type);
-                    return (
-                      <Box key={x.type + '-Box'}>
-                        <Button
-                          key={x.type + '-command-btn'}
-                          css={buttonStyles}
-                          onClick={(e) => {
-                            handleOnClick(e, x);
-                          }}
-                          data-commandmenuitemidx={idx}
-                          // isFocusable={true}
-                          // onMouseEnter={handleMouseover}
-                          onMouseMove={(e) => handleMouseover(e, idx)}
-                          // onMouseLeave={handleMouseover}
-                          px="4"
-                          borderRadius="0"
-                          boxSizing="border-box"
-                          borderLeftWidth="3px"
-                          // {editor.isBlockActive(x.type)&&
-                          backgroundColor={
-                            // isMenuItemActive
-                            //     ? menuItemBGColor
-                            //     :
-                            idx === selected ? 'gray.100' : 'unset'
-                          }
-                          borderColor={
-                            isMenuItemActive ? menuItemBorderColor : menuItemBorderColor2
-                          }
-                          _hover={
-                            {
-                              // backgroundColor: 'gray.100',
-                              // borderLeftWidth: '3px',
-                              // borderColor: menuItemBorderColor,
+    <>
+      <PromptImage
+        isOpen={imageAddPromptIsOpen}
+        onApply={onImageAdd}
+        onCancel={closeImageAddPrompt}
+      />
+
+      <Portal>
+        <Stack
+          // onBlur={closeTagSelectorMenu}
+          direction="row"
+          borderRadius="lg"
+          spacing=".1"
+          ref={ref as LegacyRef<HTMLDivElement>}
+          position="absolute"
+          padding="1"
+          zIndex="1"
+          top="-10000px"
+          left="-10000px"
+          opacity={1}
+          // backgroundColor={colorMode === 'dark' ? 'gray.700' : 'gray.200'}
+          transition="opacity 0.75s"
+          {...props}
+        >
+          {!children && (
+            <React.Fragment>
+              <Menu isOpen={isOpen} key="SlateCommandMenu">
+                <MenuList
+                  ref={menuListRef as LegacyRef<HTMLDivElement>}
+                  key="SlateCommandMenuList"
+                  minWidth="185px"
+                  max-height="300px"
+                  overflow="auto"
+                  border={menuListBorderColor}
+                  css={{
+                    '&::-webkit-scrollbar': {
+                      height: '8px',
+                      width: '8px',
+                    },
+                    '&::-webkit-scrollbar-track': {
+                      height: '6px',
+                      width: '5px',
+                    },
+                    '&::-webkit-scrollbar-thumb': {
+                      background: '#d1d1d1',
+                      // borderRadius: '24px',
+                    },
+                  }}
+                  // boxShadow="0 2px 2px rgba(0, 0, 0, 0.4)"
+                  // boxShadow="0 1px 4px 0 rgb(0 0 0 / 50%)"
+                  boxShadow="base"
+                  bg={menuListBGColor}
+                  color={menuListColor}
+                  // p="0"
+                  // my="3px"
+                  borderRadius="0"
+                  _hover={{}}
+                >
+                  {commandsLengthRef.current > 0 ? (
+                    commands.map((x, idx) => {
+                      const isMenuItemActive = editor.isBlockActive(x.type);
+                      return (
+                        <Box key={x.type + '-Box'}>
+                          <Button
+                            key={x.type + '-command-btn'}
+                            css={buttonStyles}
+                            // TODO: extract
+                            onClick={(e) => {
+                              handleOnClick(e, x);
+                            }}
+                            data-commandmenuitemidx={idx}
+                            // isFocusable={true}
+                            // onMouseEnter={handleMouseover}
+                            onMouseMove={(e) => handleMouseover(e, idx)}
+                            // onMouseLeave={handleMouseover}
+                            px="4"
+                            borderRadius="0"
+                            boxSizing="border-box"
+                            borderLeftWidth="3px"
+                            // {editor.isBlockActive(x.type)&&
+                            backgroundColor={
+                              // isMenuItemActive
+                              //     ? menuItemBGColor
+                              //     :
+                              idx === selected ? 'gray.100' : 'unset'
                             }
-                          }
-                          aria-disabled={false}
-                        >
-                          <Box me="2" fontSize="sm" as="span">
-                            {x.icon}
-                          </Box>
-                          <Box as="span" fontWeight="400" flex="1 1 0%">
-                            {x.name}
-                          </Box>
-                        </Button>
-                        {x.divider && <MenuDivider key={x.type + 'commandMenuDivider'} />}
-                      </Box>
-                    );
-                  })
-                ) : (
-                  <Button variant="ghost" disabled={true}>
-                    No result
-                  </Button>
-                )}
-              </MenuList>
-            </Menu>
-          </React.Fragment>
-        )}
-        {children && children}
-      </Stack>
-    </Portal>
+                            borderColor={
+                              isMenuItemActive ? menuItemBorderColor : menuItemBorderColor2
+                            }
+                            _hover={
+                              {
+                                // backgroundColor: 'gray.100',
+                                // borderLeftWidth: '3px',
+                                // borderColor: menuItemBorderColor,
+                              }
+                            }
+                            aria-disabled={false}
+                          >
+                            <Box me="2" fontSize="sm" as="span">
+                              {x.icon}
+                            </Box>
+                            <Box as="span" fontWeight="400" flex="1 1 0%">
+                              {x.name}
+                            </Box>
+                          </Button>
+                          {x.divider && <MenuDivider key={x.type + 'commandMenuDivider'} />}
+                        </Box>
+                      );
+                    })
+                  ) : (
+                    <Button variant="ghost" disabled={true}>
+                      No result
+                    </Button>
+                  )}
+                </MenuList>
+              </Menu>
+            </React.Fragment>
+          )}
+          {children && children}
+        </Stack>
+      </Portal>
+    </>
   );
 };
